@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Permanent+Marker&display=swap');
+
+:root {
+  /* Comic Style Color Palette */
+  --bg-color: #fcfbfa;       /* Off-white paper background */
+  --text-primary: #1a1a1a;   /* Inky black */
+  --text-secondary: #5a5a5a; /* Pencil gray */
+  --shadow-color: #050505;   /* Deep void black for the shadow */
+  --accent-blue: #3b82f6;    /* Subtle highlight color */
+  --accent-red: #ef4444;     /* Desire/danger color */
+  --panel-border: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  overflow: hidden; /* App manages scroll/pan */
+  -webkit-font-smoothing: antialiased;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 16:9 Aspect Ratio Container Enforcement */
+#root {
+  width: 100%;
+  height: 100%;
+  max-width: 177.78vh; /* 16/9 = 1.7778 */
+  max-height: 56.25vw; /* 9/16 = 0.5625 */
+  position: relative;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Special font for title/handwritten thoughts */
+.font-handwritten {
+  font-family: 'Permanent Marker', cursive;
+}
+
+/* Utility classes */
+.panel {
+  border: 3px solid var(--panel-border);
+  background: white;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+.shadow-entity {
+  background-color: var(--shadow-color);
+  FILTER: blur(8px);
+}
