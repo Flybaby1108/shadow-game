@@ -15,8 +15,8 @@ interface Scene1WakeUpProps {
   onComplete: () => void;
 }
 
-// Helper to keep paths consistent
-const A = (name: string) => `/assets/chapter1/${name}`;
+// Helper to keep paths consistent with base URL
+const A = (name: string) => `${import.meta.env.BASE_URL}assets/chapter1/${name}`;
 
 export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
   const [sceneState, setSceneState] = useState<SceneState>('SLEEPING');
