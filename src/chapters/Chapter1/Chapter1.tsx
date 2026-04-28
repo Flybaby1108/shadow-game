@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { gameStore } from '../../store/GameState';
 import { Scene1WakeUp } from './Scene1WakeUp';
 
+const A = (name: string) => `${import.meta.env.BASE_URL}assets/chapter0/${name}`;
+
 // A simple comic panel component matching our established style
 const Panel: React.FC<{
   children: React.ReactNode;
@@ -34,6 +36,7 @@ const Panel: React.FC<{
 };
 
 export const Chapter1: React.FC = () => {
+  const [isPlayingIntro, setIsPlayingIntro] = useState(true);
   const [step, setStep] = useState(0);
 
   const nextStep = () => {
@@ -47,23 +50,45 @@ export const Chapter1: React.FC = () => {
 
   return (
     <motion.div
-      className="w-full h-full relative" // Removed p-8 flex items-center etc from global here to let Scene1 WakeUp full bleed
+      className="w-full h-full relative bg-black" 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 1.5 } }}
       exit={{ opacity: 0, transition: { duration: 1 } }}
     >
       <AnimatePresence mode="wait">
-        {step === 0 && (
+        
+        {/* Opening Credits Video Layer */}
+        {isPlayingIntro && (
+          <motion.div
+            key="opening-credits"
+            className="w-full h-full absolute inset-0 z-50 flex items-center justify-center bg-black"
+            exit={{ opacity: 0, transition: { duration: 1 } }}
+          >
+            <video
+              src={A('Chapter0_2_OpeningCredits.mp4')}
+              autoPlay
+              playsInline
+              className="w-full h-full object-cover"
+              onEnded={() => setIsPlayingIntro(false)}
+            />
+          </motion.div>
+        )}
+
+        {/* Scene 1: Wake Up */}
+        {!isPlayingIntro && step === 0 && (
           <motion.div 
             key="scene-1" 
             className="w-full h-full absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8 } }}
           >
             <Scene1WakeUp onComplete={nextStep} />
           </motion.div>
         )}
         
-        {step > 0 && (
+        {/* Scene 2+: Narrative Panels */}
+        {!isPlayingIntro && step > 0 && (
           <motion.div 
             key="scene-2-plus"
             className="w-full h-full relative p-8 flex items-center justify-center overflow-hidden bg-[#fcfbfa]"

@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { gameStore } from '../store/GameState';
-import { Play } from 'lucide-react';
+
+const A = (name: string) => `${import.meta.env.BASE_URL}assets/chapter0/${name}`;
 
 export const TitleScreen: React.FC = () => {
   const startJourney = () => {
@@ -9,63 +10,56 @@ export const TitleScreen: React.FC = () => {
   };
 
   return (
-    <motion.div 
-      className="w-full h-full flex flex-col items-center justify-center bg-[#fcfbfa]"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 1.5 } }}
-    >
-      <div className="relative group cursor-pointer" onClick={startJourney}>
-        <motion.h1 
-          className="text-8xl font-black tracking-tighter text-[#1a1a1a] select-none"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-        >
-          SHADOW
-        </motion.h1>
+    <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
+      
+      {/* 16:9 Aspect Ratio Container */}
+      <div className="relative w-full max-w-[1920px] aspect-video bg-[#000] shadow-2xl overflow-hidden">
         
-        {/* Animated shadow effect behind the text */}
-        <motion.h1 
-          className="text-8xl font-black tracking-tighter text-black select-none pointer-events-none absolute top-0 left-0"
-          initial={{ x: 0, y: 0, opacity: 0, filter: 'blur(0px)' }}
-          animate={{ 
-            x: [0, 15, 10, 20, 0], 
-            y: [0, 5, 10, 0, 0],
-            opacity: [0, 0.2, 0.4, 0.2, 0],
-            filter: ['blur(0px)', 'blur(8px)', 'blur(12px)', 'blur(6px)', 'blur(0px)']
+        {/* Layer 1: Background Screen */}
+        <motion.img 
+          src={A('Chapter0_1_StartScreen.jpg')} 
+          alt="Start Screen Background" 
+          draggable={false}
+          className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        />
+
+        {/* Layer 2: Title */}
+        <motion.img 
+          src={A('Chapter0_1_Title.png')} 
+          alt="Shadow Title" 
+          draggable={false}
+          className="absolute z-10 select-none pointer-events-none" 
+          style={{ 
+            width: '71%', 
+            top: 'calc(20% - 118.9px)', 
+            left: 'calc(30% - 203.8px)' 
           }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity,
-            repeatType: 'reverse',
-            delay: 1 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 3, delay: 1, ease: "easeOut" }}
+        />
+
+        {/* Layer 3: Start Button */}
+        <motion.img 
+          src={A('Chapter0_1_StartButton.png')} 
+          alt="Start Button" 
+          draggable={false}
+          className="absolute z-20 cursor-pointer hover:brightness-110 active:scale-95 transition-all select-none" 
+          style={{ 
+            width: '14%', 
+            top: 'calc(65% + 168.0px)', 
+            left: 'calc(42.5% + 12.9px)' 
           }}
-          style={{ zIndex: -1 }}
-        >
-          SHADOW
-        </motion.h1>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, delay: 4 }}
+          onClick={startJourney}
+        />
+
       </div>
-
-      <motion.p
-        className="mt-6 text-[#5a5a5a] font-handwritten text-xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1.5 }}
-      >
-        What are you hungry for?
-      </motion.p>
-
-      <motion.button
-        className="mt-16 flex items-center gap-2 px-8 py-3 rounded-full border-2 border-[#1a1a1a] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white transition-colors duration-300 font-semibold"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 3.5, duration: 1 }}
-        onClick={startJourney}
-      >
-        <Play size={18} fill="currentColor" />
-        START
-      </motion.button>
-    </motion.div>
+    </div>
   );
 };

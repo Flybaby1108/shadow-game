@@ -9,6 +9,7 @@ export type SceneState =
   | 'HUD_ALARM'
   | 'HUD_NOTIFICATIONS'
   | 'HUD_WEATHER'
+  | 'PLAYING_VIDEO'
   | 'SCENE_COMPLETE';
 
 interface Scene1WakeUpProps {
@@ -56,6 +57,8 @@ export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
       return () => clearTimeout(timer);
     }
   }, [sceneState, onComplete]);
+
+  const videoRef = React.useRef<HTMLVideoElement>(null);
 
   // Slider Logic for Alarm
   const trackRef = React.useRef<HTMLDivElement>(null);
@@ -174,9 +177,9 @@ export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
           </div>
         ) : null}
 
-        {/* Layer 3: Awoken body with held phone (Visible when HOLDING_PHONE or later) */}
+        {/* Layer 3: Awoken body with held phone (Visible when HOLDING_PHONE or later, but hides when video plays) */}
         <AnimatePresence>
-          {['HOLDING_PHONE', 'HUD_ALARM', 'HUD_NOTIFICATIONS', 'HUD_WEATHER', 'SCENE_COMPLETE'].includes(sceneState) && (
+          {['HOLDING_PHONE', 'HUD_ALARM', 'HUD_NOTIFICATIONS', 'HUD_WEATHER'].includes(sceneState) && (
             <motion.img 
               key="wake-layer"
               src={A('Chapter1_1_Wake.png')}
@@ -185,6 +188,7 @@ export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
               style={{ width: '40.7%', top: '11.91%', left: '30.02%' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             />
           )}
@@ -259,7 +263,7 @@ export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, filter: 'blur(10px)', transition: { duration: 0.5 } }}
-                onClick={() => setSceneState('SCENE_COMPLETE')}
+                onClick={() => setSceneState('PLAYING_VIDEO')}
               >
                 <img src={A('Chapter1_1_Weather.png')} alt="Weather" className="w-[100%] drop-shadow-xl" />
               </motion.div>
@@ -267,6 +271,28 @@ export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
 
           </AnimatePresence>
         </div>
+
+        {/* Video Layer */}
+        <AnimatePresence>
+          {sceneState === 'PLAYING_VIDEO' && (
+            <motion.div
+              key="meal-video"
+              className="absolute inset-0 z-40 bg-black flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <video
+                ref={videoRef}
+                src={A('Chapter1_2_DrinkMealReplacement.mp4')}
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover"
+                onEnded={() => setSceneState('SCENE_COMPLETE')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Instruction Global Overlay */}
         <div className="absolute top-4 w-full text-center pointer-events-none">
