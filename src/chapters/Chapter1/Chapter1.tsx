@@ -36,7 +36,7 @@ const Panel: React.FC<{
 };
 
 export const Chapter1: React.FC = () => {
-  const [isPlayingIntro, setIsPlayingIntro] = useState(true);
+  const [isPlayingIntro, setIsPlayingIntro] = useState(false); // DEV: skip intro
   const [step, setStep] = useState(0);
 
   const nextStep = () => {

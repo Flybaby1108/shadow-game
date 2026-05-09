@@ -3,10 +3,12 @@ export interface ChapterMeta {
   title: string;
   engTitle: string;
   description: string;
+  introImage?: string; // optional background shown during chapter transition
+  introVideo?: string; // optional video played during chapter transition
 }
 
 export const CHAPTERS: ChapterMeta[] = [
-  { id: 1, title: '齿轮', engTitle: 'Gears', description: '被高压节奏驱赶成机器，内心的微弱回应。' },
+  { id: 1, title: '齿轮', engTitle: 'Gears', description: '被高压节奏驱赶成机器，内心的微弱回应。', introVideo: 'assets/chapter1/Opening_1_v1.0.mp4', introImage: 'assets/chapter1/Chapter1_1_Sleep_a.jpg' },
   { id: 2, title: '饥饿', engTitle: 'Hunger', description: '欲望首次具象化为影子，走向对成功追逐。' },
   { id: 3, title: '附属品', engTitle: 'Accessories', description: '虚荣快感失控，甚至把情感当作展品。' },
   { id: 4, title: '数据', engTitle: 'Data', description: '冰冷的理性取代了真正的温度。' },

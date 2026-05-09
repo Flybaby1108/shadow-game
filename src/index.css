@@ -34,6 +34,30 @@ body {
   justify-content: center;
 }
 
+/* Apply default custom cursor everywhere unless overridden by specific states */
+body:not(.mouse-pressed):not(.dev-mode):not(.cursor-brush),
+body:not(.mouse-pressed):not(.dev-mode):not(.cursor-brush) * {
+  cursor: url('/shadow-game/assets/chapter0/MousePointer_a.png') 2 2, auto !important;
+}
+
+/* Mouse pressed — switch to MousePointer_b for all elements */
+body.mouse-pressed:not(.dev-mode):not(.cursor-brush),
+body.mouse-pressed:not(.dev-mode):not(.cursor-brush) * {
+  cursor: url('/shadow-game/assets/chapter0/MousePointer_b.png') 2 2, auto !important;
+}
+
+/* Director mode — revert to system default cursor for precise positioning */
+body.dev-mode,
+body.dev-mode * {
+  cursor: default !important;
+}
+
+/* Brush cursor — used during CHECK_INTERFACE scratch drawing */
+body.cursor-brush,
+body.cursor-brush * {
+  cursor: url('/shadow-game/assets/chapter0/MousePointer_c.png') 32 32, crosshair !important;
+}
+
 /* 16:9 Aspect Ratio Container Enforcement */
 #root {
   width: 100%;

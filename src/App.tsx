@@ -20,6 +20,20 @@ function App() {
     };
   }, []);
 
+  // Global cursor: default → MousePointer_a, pressed → MousePointer_b
+  useEffect(() => {
+    const onDown = () => document.body.classList.add('mouse-pressed');
+    const onUp   = () => document.body.classList.remove('mouse-pressed');
+    window.addEventListener('mousedown', onDown);
+    window.addEventListener('mouseup',   onUp);
+    window.addEventListener('mouseleave', onUp);
+    return () => {
+      window.removeEventListener('mousedown', onDown);
+      window.removeEventListener('mouseup',   onUp);
+      window.removeEventListener('mouseleave', onUp);
+    };
+  }, []);
+
   // Intercept chapter changes to show transition overlay
   useEffect(() => {
     if (gameState.currentChapterId !== prevChapter.current) {
