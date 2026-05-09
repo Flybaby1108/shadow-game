@@ -147,11 +147,7 @@ const ScratchOffCanvas: React.FC<{
 };
 
 export const Scene1WakeUp: React.FC<Scene1WakeUpProps> = ({ onComplete }) => {
-  const devMode = false; 
-  const [checkmarkWidth, setCheckmarkWidth] = useState(48.00); // %
-  const [checkmarkHeight, setCheckmarkHeight] = useState(40.00); // %
-  const [xPercent, setXPercent] = useState(25.90); // left %
-  const [yPercent, setYPercent] = useState(25.40); // top %
+  // Dev variables removed to satisfy TS build
   
   // --- DEV MODE V6.0 STATE (Alarm Button Control) ---
   const devModeAlarm = false;
